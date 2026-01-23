@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ifpb.dto.PacienteDTO;
 
 import java.util.Objects;
 
@@ -28,6 +29,13 @@ public class Paciente {
     @Column(nullable = false)
     private int datanascimento;
 
+    public Paciente(PacienteDTO pacienteDTO) {
+        this.nome = pacienteDTO.getNome();
+        this.cpf = pacienteDTO.getCpf();
+        this.telefone = pacienteDTO.getTelefone();
+        this.email = pacienteDTO.getEmail();
+        this.datanascimento = pacienteDTO.getDatanascimento();
+    }
 
     @Override
     public boolean equals(Object o) {
