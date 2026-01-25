@@ -28,5 +28,9 @@ public class Consulta {
     @Column(nullable = false)
     private StatusConsulta status = StatusConsulta.AGENDADA;
 
+    @ManyToOne
+    private Medico medico;
 
+    @ManyToOne
+    private Paciente paciente;
 }
