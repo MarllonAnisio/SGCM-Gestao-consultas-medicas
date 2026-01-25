@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ifpb.model.enums.Especialidades;
 
+import java.util.List;
+
 
 @Setter
 @Getter
@@ -30,4 +32,6 @@ public class Medico {
     @Enumerated(EnumType.STRING)
     private Especialidades especialidade;
 
+    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Consulta> consultas;
 }
