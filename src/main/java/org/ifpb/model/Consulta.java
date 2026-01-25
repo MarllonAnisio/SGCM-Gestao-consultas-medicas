@@ -31,5 +31,6 @@ public class Consulta {
     @ManyToOne
     private Medico medico;
 
-
+    @ManyToOne
+    private Paciente paciente;
 }

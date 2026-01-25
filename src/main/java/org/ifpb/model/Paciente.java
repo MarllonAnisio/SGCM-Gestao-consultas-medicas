@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ifpb.dto.PacienteDTO;
 
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -28,6 +29,9 @@ public class Paciente {
     private String email;
     @Column(nullable = false)
     private int datanascimento;
+
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Consulta> consultas;
 
     public Paciente(PacienteDTO pacienteDTO) {
         this.nome = pacienteDTO.getNome();
@@ -61,4 +65,5 @@ public class Paciente {
                 ", datanascimento=" + datanascimento +
                 '}';
     }
+
 }
