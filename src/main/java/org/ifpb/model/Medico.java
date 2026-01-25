@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ifpb.model.enums.Especialidades;
 
 
 @Setter
@@ -23,6 +24,10 @@ public class Medico {
     @Column(nullable = false, unique = true)
     private String CRM;
 
+    @Column(nullable = false)
     private String nome;
+
+    @Enumerated(EnumType.STRING)
+    private Especialidades especialidade;
 
 }
