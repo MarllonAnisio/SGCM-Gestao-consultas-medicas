@@ -12,6 +12,9 @@ import org.ifpb.model.enums.Especialidade;
 /**
  * @class MedicoRequestDTO
  * utilizing to transfer data from controller to model
+ * @var nome is the name of the doctor
+ * @var CRM is the Clinical Registration of the doctor
+ * @var especialidade is the specialty of the doctor
  * */
 public class MedicoRequestDTO {
     private String nome;
