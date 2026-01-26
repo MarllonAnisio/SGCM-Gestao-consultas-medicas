@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Especialidades {
+public enum Especialidade {
     CARDIOLOGIA("Cardiologia"),
     DERMATOLOGIA("Dermatologia"),
     GINECOLOGIA("Ginecologia"),
