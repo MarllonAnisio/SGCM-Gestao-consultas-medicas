@@ -12,6 +12,10 @@ import lombok.Setter;
 /**
  * @class MedicoResponseDTO
  * utilizing to transfer data from model to controller
+ * @var id is the id of the doctor
+ * @var nome is the name of the doctor
+ * @var CRM is the Clinical Registration of the doctor
+ * @var especialidade is the specialty of the doctor
  * */
 public class MedicoResponseDTO {
 
