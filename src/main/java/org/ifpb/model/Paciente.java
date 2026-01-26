@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ifpb.dto.PacienteDTO;
+import org.ifpb.dto.paciente.PacienteRequestDTO;
 
 import java.util.List;
 import java.util.Objects;
@@ -33,12 +34,12 @@ public class Paciente {
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;
 
-    public Paciente(PacienteDTO pacienteDTO) {
-        this.nome = pacienteDTO.getNome();
-        this.cpf = pacienteDTO.getCpf();
-        this.telefone = pacienteDTO.getTelefone();
-        this.email = pacienteDTO.getEmail();
-        this.datanascimento = pacienteDTO.getDatanascimento();
+    public Paciente(PacienteRequestDTO pacienteRequestDTO) {
+        this.nome = pacienteRequestDTO.getNome();
+        this.cpf = pacienteRequestDTO.getCpf();
+        this.telefone = pacienteRequestDTO.getTelefone();
+        this.email = pacienteRequestDTO.getEmail();
+        this.datanascimento = pacienteRequestDTO.getDatanascimento();
     }
 
     @Override
