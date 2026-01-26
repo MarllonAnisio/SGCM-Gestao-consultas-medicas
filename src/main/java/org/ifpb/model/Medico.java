@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.ifpb.model.enums.Especialidades;
+import org.ifpb.model.enums.Especialidade;
 
 import java.util.List;
 
@@ -30,7 +30,7 @@ public class Medico {
     private String nome;
 
     @Enumerated(EnumType.STRING)
-    private Especialidades especialidade;
+    private Especialidade especialidade;
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;
