@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
  * */
 public class ConsultaRequestDTO {
 
-    private int idPaciente;
-    private int idMedico;
+    private Long idPaciente;
+    private Long idMedico;
     private LocalDateTime data;
 
 }

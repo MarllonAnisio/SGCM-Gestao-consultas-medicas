@@ -24,17 +24,17 @@ import java.time.LocalDateTime;
  * */
 public class ConsultaResponseDTO {
 
-    private int id;
+    private Long id;
     private LocalDateTime data;
     private StatusConsulta status;
     private String observacao;
 
 
-    private int idPaciente;
+    private Long idPaciente;
     private String nomePaciente;
     private String cpfPaciente;
 
-    private int idMedico;
+    private Long idMedico;
     private String NomeMedico;
 
 }

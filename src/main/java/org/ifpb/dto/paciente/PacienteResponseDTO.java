@@ -21,7 +21,7 @@ import lombok.Setter;
  * @var idade is the age of the patient
  * */
 public class PacienteResponseDTO {
-    private int id;
+    private Long id;
     private String nome;
     private String cpf;
     int idade;

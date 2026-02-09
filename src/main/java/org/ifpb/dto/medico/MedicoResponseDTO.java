@@ -19,7 +19,7 @@ import lombok.Setter;
  * */
 public class MedicoResponseDTO {
 
-    private int id;
+    private Long id;
     private String nome;
     private String CRM;
     private String especialidade;
