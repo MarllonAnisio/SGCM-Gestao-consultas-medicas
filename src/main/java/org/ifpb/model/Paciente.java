@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.ifpb.dto.PacienteDTO;
+
 import org.ifpb.dto.paciente.PacienteRequestDTO;
 
 import java.util.List;
