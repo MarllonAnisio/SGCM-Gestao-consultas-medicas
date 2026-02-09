@@ -1,0 +1,15 @@
+services:
+  db:
+
+    image: mysql:8 # ou o banco de dados de sua preferencia
+    container_name: SGCM-mysql-db # nome do container
+    environment:
+      MYSQL_ROOT_PASSWORD: #sua senha do banco de dados
+      MYSQL_DATABASE:  # nome do banco de dados
+    ports:
+      - 3306:3306 # a porta do seu banco o mais usado para o mysql é 3306 mas pode ser qualquer outra
+    volumes:
+      - mysql-data:/var/lib/mysql # o volume do banco de dados ex: /var/lib/mysql
+
+volumes:
+  mysql-data:
