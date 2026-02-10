@@ -19,7 +19,18 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
     @Override
     public T save(T entity) {
-        return null;
+        EntityManager em = getEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(entity);
+            em.getTransaction().commit();
+            return entity;
+        }catch (Exception e){
+            em.getTransaction().rollback();
+            throw e;
+        }finally{
+            em.close();
+        }
     }
 
     @Override
