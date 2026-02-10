@@ -16,7 +16,20 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         return HibernateUtil.getEntityManager();
     }
 
-
+    /**
+     * Sincroniza o estado da entidade com o banco de dados dentro de uma transação isolada.
+     * * <p>Este método utiliza a semântica de <b>upsert</b> (update ou insert):</p>
+     * <ul>
+     * <li>Se a entidade já possui um identificador (ID) presente no contexto de persistência,
+     * os dados são atualizados (SQL {@code UPDATE}).</li>
+     * <li>Se a entidade é nova ou não possui ID, uma nova entrada é criada
+     * no banco de dados (SQL {@code INSERT}).</li>
+     * </ul>
+     * * <p>Após a operação, a instância retornada é a instância gerenciada pelo
+     * {@link EntityManager}, e não necessariamente a instância passada como parâmetro.</p>
+     * @param entity A instância da entidade a ser salva ou atualizada. Não deve ser {@code null}.
+     * @return A instância gerenciada da entidade, com seu estado atualizado e IDs gerados.
+     */
     @Override
     public T save(T entity) {
         EntityManager em = getEntityManager();
