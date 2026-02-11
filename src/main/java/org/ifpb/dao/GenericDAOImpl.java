@@ -1,6 +1,7 @@
 package org.ifpb.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.ifpb.config.HibernateUtil;
 import org.ifpb.dao.interfaces.GerericDAO;
 
@@ -98,7 +99,18 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
     @Override
     public List<T> findAll() {
-        return null;
+        EntityManager em = getEntityManager();
+        try{
+            String jpql = "SELECT t FROM " + classe.getSimpleName() + " t";
+            TypedQuery<T> query = em.createQuery(jpql, classe);
+            return query.getResultList();
+
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }finally {
+            em.close();
+        }
+
     }
 
     @Override
