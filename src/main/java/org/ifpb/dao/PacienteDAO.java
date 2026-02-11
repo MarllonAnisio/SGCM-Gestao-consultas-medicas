@@ -1,5 +1,6 @@
 package org.ifpb.dao;
 
+import org.ifpb.dao.interfaces.IPacienteDAO;
 import org.ifpb.model.Paciente;
 
 public class PacienteDAO extends GenericDAOImpl<Paciente, Long> implements IPacienteDAO {

@@ -1,4 +1,4 @@
-package org.ifpb.dao;
+package org.ifpb.dao.interfaces;
 
 public interface GerericDAO<T, ID>{
     T save(T entity);
