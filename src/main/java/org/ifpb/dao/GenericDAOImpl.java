@@ -46,7 +46,11 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
             em.close();
         }
     }
-
+    /**
+     * Busca uma entidade T pelo seu ID
+     * @param id Identificador da entidade
+     *  <p>Este método utiliza a semântica de <b>Select</b></p>
+     * */
     @Override
     public T findById(ID id) {
         EntityManager em = getEntityManager();
