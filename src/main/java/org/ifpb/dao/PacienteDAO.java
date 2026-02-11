@@ -11,7 +11,7 @@ public class PacienteDAO extends GenericDAOImpl<Paciente, Long> implements IPaci
 
     public Paciente findByCpf(String cpf){
         try{
-            String jpql = "SELECT p FROM tb_paciente p WHERE p.cpf = :cpf";
+            String jpql = "SELECT p FROM Paciente p WHERE p.cpf = :cpf";
             return getEntityManager()
                     .createQuery(jpql, Paciente.class).
                     setParameter("cpf", cpf).
