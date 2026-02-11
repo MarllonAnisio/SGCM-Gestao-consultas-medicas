@@ -46,6 +46,7 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
             em.close();
         }
     }
+
     /**
      * Busca uma entidade T pelo seu ID
      * @param id Identificador da entidade
@@ -65,6 +66,20 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         }
     }
 
+    /**
+     * Remove permanentemente a entidade do repositório utilizando seu identificador único.
+     *
+     * <p>Esta operação segue a semântica de <b>Fetch-and-Remove</b>:</p>
+     * <ol>
+     * <li>Realiza a busca da entidade no estado <i>Managed</i> (SQL {@code SELECT}).</li>
+     * <li>Agenda a remoção da instância encontrada para o próximo flush (SQL {@code DELETE}).</li>
+     * </ol>
+     *
+     * @param id O identificador único da entidade. Não deve ser {@code null}.
+     * @throws IllegalArgumentException se o {@code id} for {@code null}.
+     * @throws RuntimeException se a entidade não for encontrada ou houver erro de integridade.
+     * @see #findById(Object)
+     */
     @Override
     public void deleteById(ID id) {
         EntityManager em = getEntityManager();
