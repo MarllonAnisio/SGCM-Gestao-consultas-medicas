@@ -48,7 +48,16 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
     @Override
     public T findById(ID id) {
-        return null;
+        EntityManager em = getEntityManager();
+        try{
+            return em.find(classe, id);
+        }catch (Exception e) {
+
+            throw new RuntimeException(e);
+
+        }finally{
+            em.close();
+        }
     }
 
     @Override
