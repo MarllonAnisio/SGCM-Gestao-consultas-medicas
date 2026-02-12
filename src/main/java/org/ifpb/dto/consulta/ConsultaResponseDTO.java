@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ifpb.dto.medico.MedicoResponseDTO;
+import org.ifpb.dto.paciente.PacienteResponseDTO;
 import org.ifpb.model.enums.StatusConsulta;
 import java.time.LocalDateTime;
 @NoArgsConstructor
@@ -29,12 +31,8 @@ public class ConsultaResponseDTO {
     private StatusConsulta status;
     private String observacao;
 
+    private MedicoResponseDTO medico;
 
-    private Long idPaciente;
-    private String nomePaciente;
-    private String cpfPaciente;
-
-    private Long idMedico;
-    private String NomeMedico;
+    private PacienteResponseDTO paciente;
 
 }
