@@ -114,22 +114,5 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
     }
 
 
-    @Override
-    public boolean existsById(ID id) {
-        try{
-            return findById(id) != null;
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-    }
 
-    @Override
-    public long count() {
-        return 0;
-    }
-
-    @Override
-    public void delete(T entity) {
-
-    }
 }
