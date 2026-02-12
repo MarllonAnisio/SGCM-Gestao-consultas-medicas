@@ -26,7 +26,6 @@ public class Consulta {
     @Column(name = "observacoes")
     private String observacao;
 
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatusConsulta status = StatusConsulta.AGENDADA;

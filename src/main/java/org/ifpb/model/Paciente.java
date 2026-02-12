@@ -34,7 +34,7 @@ public class Paciente {
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;
-    
+
 
     @Override
     public boolean equals(Object o) {
