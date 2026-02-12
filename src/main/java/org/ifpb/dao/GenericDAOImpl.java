@@ -86,8 +86,12 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         EntityManager em = getEntityManager();
         try{
             em.getTransaction().begin();
-            T entity = findById(id);
-            em.remove(entity);
+
+            /**
+             * deleta a entidade que vem do retorno do findById
+             * */
+            delete(findById(id));
+
             em.getTransaction().commit();
         }catch (Exception e){
             em.getTransaction().rollback();
