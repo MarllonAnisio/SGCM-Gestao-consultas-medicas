@@ -36,7 +36,7 @@ public class Medico {
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;
-    
+
     @Override
     public String toString() {
         return "Medico{" +
