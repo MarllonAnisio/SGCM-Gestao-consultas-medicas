@@ -9,6 +9,7 @@ import org.ifpb.dto.medico.MedicoRequestDTO;
 import org.ifpb.model.enums.Especialidade;
 
 import java.util.List;
+import java.util.Objects;
 
 
 @Setter
@@ -41,5 +42,25 @@ public class Medico {
         this.nome = medicoRequestDTO.getNome();
         this.especialidade = medicoRequestDTO.getEspecialidade();
     }
+    @Override
+    public String toString() {
+        return "Medico{" +
+                "id=" + id +
+                ", CRM='" + CRM + '\'' +
+                ", nome='" + nome + '\'' +
+                ", especialidade=" + especialidade +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Medico medico = (Medico) o;
+        return Objects.equals(id, medico.id) && Objects.equals(CRM, medico.CRM);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, CRM);
+    }
 }
