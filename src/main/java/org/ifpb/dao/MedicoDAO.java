@@ -5,8 +5,8 @@ import org.ifpb.model.Medico;
 
 public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDAO {
 
-    public MedicoDAO(Class<Medico> classe) {
-        super(classe);
+    public MedicoDAO() {
+        super(Medico.class);
     }
 
     @Override
