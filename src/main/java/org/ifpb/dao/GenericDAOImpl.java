@@ -118,5 +118,14 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
+    }@Override
+    public long count() {
+        try{
+            String jpql = "SELECT COUNT(t) FROM " + classe.getSimpleName() + " t";
+            TypedQuery<Long> query = getEntityManager().createQuery(jpql, Long.class);
+            return query.getSingleResult();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
     }
 }
