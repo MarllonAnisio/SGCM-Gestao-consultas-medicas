@@ -36,12 +36,7 @@ public class Medico {
 
     @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;
-
-    public Medico(MedicoRequestDTO medicoRequestDTO) {
-        this.CRM = medicoRequestDTO.getCRM();
-        this.nome = medicoRequestDTO.getNome();
-        this.especialidade = medicoRequestDTO.getEspecialidade();
-    }
+    
     @Override
     public String toString() {
         return "Medico{" +
