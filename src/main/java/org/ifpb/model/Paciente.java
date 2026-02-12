@@ -34,14 +34,7 @@ public class Paciente {
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;
-
-    public Paciente(PacienteRequestDTO pacienteRequestDTO) {
-        this.nome = pacienteRequestDTO.getNome();
-        this.cpf = pacienteRequestDTO.getCpf();
-        this.telefone = pacienteRequestDTO.getTelefone();
-        this.email = pacienteRequestDTO.getEmail();
-        this.datanascimento = pacienteRequestDTO.getDatanascimento();
-    }
+    
 
     @Override
     public boolean equals(Object o) {
