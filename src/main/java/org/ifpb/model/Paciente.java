@@ -12,6 +12,8 @@ import java.util.Objects;
 
 @NoArgsConstructor
 @Getter @Setter
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "tb_pacientes")
 public class Paciente {
