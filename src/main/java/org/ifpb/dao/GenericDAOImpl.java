@@ -145,18 +145,4 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
         }
     }
-    @Override
-    public void delete(T entity) {
-        EntityManager em = getEntityManager();
-        try{
-            em.getTransaction().begin();
-            em.remove(entity);
-            em.getTransaction().commit();
-        }catch (Exception e){
-            em.getTransaction().rollback();
-            throw e;
-        }finally{
-            em.close();
-        }
-    }
 }
