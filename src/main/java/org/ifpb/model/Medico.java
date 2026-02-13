@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.ifpb.dto.medico.MedicoRequestDTO;
 import org.ifpb.model.enums.Especialidade;
 
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-
+@Builder
 @Table(name = "tb_medicos")
 @Entity
 public class Medico {
@@ -31,6 +30,10 @@ public class Medico {
 
     @Column(nullable = false)
     private String nome;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean ativo = true;
 
     @Enumerated(EnumType.STRING)
     private Especialidade especialidade;
