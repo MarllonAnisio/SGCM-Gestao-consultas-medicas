@@ -16,7 +16,6 @@ public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDA
 
     @Override
     public Optional<Medico> findByCrm(String crm) {
-
         try (EntityManager em = getEntityManager()) {
 
             String jpql = "SELECT m FROM Medico m WHERE m.CRM = :crm";
