@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 import org.ifpb.model.enums.Especialidade;
 import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
@@ -20,6 +21,7 @@ import java.util.Objects;
 @Builder
 @Table(name = "tb_medicos")
 @Entity
+@SQLDelete(sql = "UPDATE tb_medicos SET ativo = false WHERE id = ?")
 public class Medico implements IExclusaoLogica {
 
     @Id
