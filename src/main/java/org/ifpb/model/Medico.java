@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.ifpb.model.enums.Especialidade;
+import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,7 +20,7 @@ import java.util.Objects;
 @Builder
 @Table(name = "tb_medicos")
 @Entity
-public class Medico {
+public class Medico implements IExclusaoLogica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,5 +62,15 @@ public class Medico {
     @Override
     public int hashCode() {
         return Objects.hash(id, CRM);
+    }
+
+    @Override
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public Boolean getAtivo() {
+        return this.ativo;
     }
 }
