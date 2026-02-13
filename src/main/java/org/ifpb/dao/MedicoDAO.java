@@ -35,4 +35,12 @@ public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDA
             return em.createQuery(jpql, Medico.class).getResultList();
         }
     }
+    @Override
+    public List<Medico> findAllInativos() {
+        try (EntityManager em = getEntityManager()) {
+            String jpql = "SELECT m FROM Medico m WHERE m.ativo = false";
+            return em.createQuery(jpql, Medico.class).getResultList();
+        }
+    }
+    
 }
