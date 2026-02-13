@@ -1,7 +1,6 @@
 package org.ifpb.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import org.ifpb.config.HibernateUtil;
 import org.ifpb.dao.interfaces.GerericDAO;
 
