@@ -47,6 +47,21 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
             em.close();
         }
     }
+    @Override
+    public void save(T entity) {
+        EntityManager em = getEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(entity);
+            em.getTransaction().commit();
+
+        }catch (Exception e){
+            em.getTransaction().rollback();
+            throw e;
+        }finally {
+            em.close();
+        }
+    }
 
     /**
      * Busca uma entidade T pelo seu ID
