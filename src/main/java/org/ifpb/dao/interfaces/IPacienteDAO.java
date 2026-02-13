@@ -1,8 +1,9 @@
 package org.ifpb.dao.interfaces;
 
 import org.ifpb.model.Paciente;
+import java.util.Optional;
 
 public interface IPacienteDAO extends GerericDAO<Paciente, Long> {
-    Paciente findByCpf(String cpf);
 
+    Optional<Paciente> findByCpf(String cpf);
 }
