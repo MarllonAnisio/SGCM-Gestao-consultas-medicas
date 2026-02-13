@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,7 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "tb_pacientes")
-public class Paciente {
+public class Paciente implements IExclusaoLogica {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -76,4 +77,13 @@ public class Paciente {
                 '}';
     }
 
+    @Override
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
+    @Override
+    public Boolean getAtivo() {
+        return ativo;
+    }
 }
