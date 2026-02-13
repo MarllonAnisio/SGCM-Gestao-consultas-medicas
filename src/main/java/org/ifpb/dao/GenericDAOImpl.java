@@ -6,6 +6,7 @@ import org.ifpb.config.HibernateUtil;
 import org.ifpb.dao.interfaces.GerericDAO;
 
 import java.util.List;
+import java.util.Optional;
 
 public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
@@ -33,19 +34,21 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
      * @return A instância gerenciada da entidade, com seu estado atualizado e IDs gerados.
      */
     @Override
-    public T save(T entity) {
+    public T update(T entity) {
         EntityManager em = getEntityManager();
         try{
             em.getTransaction().begin();
-            em.merge(entity);
+            T entityUpdated = em.merge(entity);
             em.getTransaction().commit();
             return entity;
-        }catch (Exception e){
+
+        }catch (Exception e) {
             em.getTransaction().rollback();
             throw e;
-        }finally{
+        }finally {
             em.close();
         }
+
     }
     @Override
     public void save(T entity) {
@@ -69,16 +72,10 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
      *  <p>Este método utiliza a semântica de <b>Select</b></p>
      * */
     @Override
-    public T findById(ID id) {
-        EntityManager em = getEntityManager();
-        try{
-            return em.find(classe, id);
-        }catch (Exception e) {
+    public Optional<T> findById(ID id) {
 
-            throw new RuntimeException(e);
-
-        }finally{
-            em.close();
+        try(EntityManager em = getEntityManager()){
+            return Optional.ofNullable(em.find(classe, id));
         }
     }
 
@@ -102,10 +99,11 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         try{
             em.getTransaction().begin();
 
-            /**
-             * deleta a entidade que vem do retorno do findById
-             * */
-            delete(findById(id));
+            T entity = em.find(classe, id);
+
+            if(entity != null){
+                em.remove(entity);
+            }
 
             em.getTransaction().commit();
         }catch (Exception e){
