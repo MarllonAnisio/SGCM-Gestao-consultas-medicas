@@ -11,5 +11,5 @@ public interface GerericDAO<T, ID>{
     List<T> findAll();
     boolean existsById(ID id);
     long count();
-    void delete(T entity);
+   
 }
