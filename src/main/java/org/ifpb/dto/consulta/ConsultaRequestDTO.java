@@ -20,6 +20,7 @@ public class ConsultaRequestDTO {
 
     private Long idPaciente;
     private Long idMedico;
+    private String observacao;
     private LocalDateTime data;
 
 }
