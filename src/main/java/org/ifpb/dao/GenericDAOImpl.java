@@ -40,7 +40,7 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
             em.getTransaction().begin();
             T entityUpdated = em.merge(entity);
             em.getTransaction().commit();
-            return entity;
+            return entityUpdated;
 
         }catch (Exception e) {
             em.getTransaction().rollback();
