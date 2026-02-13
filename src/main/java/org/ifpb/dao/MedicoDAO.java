@@ -1,7 +1,6 @@
 package org.ifpb.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
 import org.ifpb.dao.interfaces.IMedicoDAO;
 import org.ifpb.model.Medico;
 
