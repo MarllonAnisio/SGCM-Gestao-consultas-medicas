@@ -13,6 +13,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Table(name = "tb_consultas")
 @Entity
 public class Consulta {
