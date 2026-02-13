@@ -15,12 +15,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.ifpb.dto.consulta.ConsultaRequestDTO;
 import org.ifpb.model.enums.StatusConsulta;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-
+@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
