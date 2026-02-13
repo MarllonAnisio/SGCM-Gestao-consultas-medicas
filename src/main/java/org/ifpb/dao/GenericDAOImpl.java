@@ -116,19 +116,17 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
     @Override
     public List<T> findAll() {
-        EntityManager em = getEntityManager();
-        try{
+
+        try(EntityManager em = getEntityManager()){
+
             String jpql = "SELECT t FROM " + classe.getSimpleName() + " t";
-            TypedQuery<T> query = em.createQuery(jpql, classe);
-            return query.getResultList();
 
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }finally {
-            em.close();
+            return em.createQuery(jpql, classe).getResultList();
+
         }
+    }
 
-    }@Override
+    @Override
     public boolean existsById(ID id) {
         try{
             return findById(id).isPresent();
@@ -136,7 +134,8 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         }catch (Exception e){
             throw new RuntimeException(e);
         }
-    }@Override
+    }
+    @Override
     public long count() {
         try(EntityManager em = getEntityManager()){
 
