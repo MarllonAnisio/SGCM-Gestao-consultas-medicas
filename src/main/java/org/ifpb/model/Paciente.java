@@ -15,6 +15,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.SQLDelete;
 import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
 import java.util.List;
@@ -26,6 +27,7 @@ import java.util.Objects;
 @Builder
 @Entity
 @Table(name = "tb_pacientes")
+@SQLDelete(sql = "UPDATE tb_pacientes SET ativo = false WHERE id = ?")
 public class Paciente implements IExclusaoLogica {
 
     @Id
