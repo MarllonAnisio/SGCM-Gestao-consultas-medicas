@@ -46,4 +46,16 @@ public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDA
     public Optional<Medico> findByIdInclusiveInativos(Long id) {
         return super.findById(id);
     }
+
+    @Override
+    public Optional<Medico> findByIdAtivo(Long id) {
+        try (EntityManager em = getEntityManager()) {
+            String jpql = "SELECT m FROM Medico m WHERE m.ativo = true AND m.id = :id";
+            return em.createQuery(jpql, Medico.class)
+                    .setParameter("id", id)
+                    .setMaxResults(1)
+                    .getResultList().stream().findFirst();
+        }
+    }
+
 }
