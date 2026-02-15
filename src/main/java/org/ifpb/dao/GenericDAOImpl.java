@@ -1,13 +1,15 @@
 package org.ifpb.dao;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.OptimisticLockException;
 import org.ifpb.config.HibernateUtil;
-import org.ifpb.dao.interfaces.GerericDAO;
+import org.ifpb.dao.dao_exceptions.DatabaseException;
+import org.ifpb.dao.interfaces.GenericDAO;
 
 import java.util.List;
 import java.util.Optional;
 
-public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
+public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
 
     private final Class<T> classe;
 
@@ -18,20 +20,6 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         return HibernateUtil.getEntityManager();
     }
 
-    /**
-     * Sincroniza o estado da entidade com o banco de dados dentro de uma transação isolada.
-     * * <p>Este método utiliza a semântica de <b>upsert</b> (update ou insert):</p>
-     * <ul>
-     * <li>Se a entidade já possui um identificador (ID) presente no contexto de persistência,
-     * os dados são atualizados (SQL {@code UPDATE}).</li>
-     * <li>Se a entidade é nova ou não possui ID, uma nova entrada é criada
-     * no banco de dados (SQL {@code INSERT}).</li>
-     * </ul>
-     * * <p>Após a operação, a instância retornada é a instância gerenciada pelo
-     * {@link EntityManager}, e não necessariamente a instância passada como parâmetro.</p>
-     * @param entity A instância da entidade a ser salva ou atualizada. Não deve ser {@code null}.
-     * @return A instância gerenciada da entidade, com seu estado atualizado e IDs gerados.
-     */
     @Override
     public T update(T entity) {
         EntityManager em = getEntityManager();
@@ -41,9 +29,19 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
             em.getTransaction().commit();
             return entityUpdated;
 
+        }catch (OptimisticLockException e) {
+            rollback(em);
+            throw new DatabaseException("Conflito de versão: O registro foi alterado por outro usuário.", e);
+
+
+        }catch (IllegalArgumentException e) {
+            rollback(em);
+            throw new DatabaseException("Erro: Tentativa de atualizar um registro inválido ou removido.", e);
+
+
         }catch (Exception e) {
-            em.getTransaction().rollback();
-            throw e;
+            rollback(em);
+            throw new DatabaseException("Erro sistêmico inesperado ao atualizar " + classe.getSimpleName(), e);
         }finally {
             em.close();
         }
@@ -65,11 +63,6 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         }
     }
 
-    /**
-     * Busca uma entidade T pelo seu ID
-     * @param id Identificador da entidade
-     *  <p>Este método utiliza a semântica de <b>Select</b></p>
-     * */
     @Override
     public Optional<T> findById(ID id) {
 
@@ -78,20 +71,6 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
         }
     }
 
-    /**
-     * Remove permanentemente a entidade do repositório utilizando seu identificador único.
-     *
-     * <p>Esta operação segue a semântica de <b>Fetch-and-Remove</b>:</p>
-     * <ol>
-     * <li>Realiza a busca da entidade no estado <i>Managed</i> (SQL {@code SELECT}).</li>
-     * <li>Agenda a remoção da instância encontrada para o próximo flush (SQL {@code DELETE}).</li>
-     * </ol>
-     *
-     * @param id O identificador único da entidade. Não deve ser {@code null}.
-     * @throws IllegalArgumentException se o {@code id} for {@code null}.
-     * @throws RuntimeException se a entidade não for encontrada ou houver erro de integridade.
-     * @see #findById(Object)
-     */
     @Override
     public void deleteById(ID id) {
         EntityManager em = getEntityManager();
@@ -148,7 +127,7 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
             try {
                 em.getTransaction().rollback();
             } catch (Exception e) {
-                
+
                 System.err.println("Erro crítico ao tentar fazer rollback: " + e.getMessage());
             }
         }
