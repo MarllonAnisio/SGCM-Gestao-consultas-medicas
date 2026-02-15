@@ -19,5 +19,5 @@ import org.ifpb.model.enums.Especialidade;
 public class MedicoRequestDTO {
     private String nome;
     private String CRM;
-    private Especialidade especialidade;
+    private String especialidade;
 }
