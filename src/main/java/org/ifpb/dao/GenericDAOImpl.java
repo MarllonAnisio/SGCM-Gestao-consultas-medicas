@@ -106,6 +106,10 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
 
         try(EntityManager em = getEntityManager()){
             return Optional.ofNullable(em.find(classe, id));
+        }catch (IllegalArgumentException e) {
+            throw new DatabaseException("Erro: ID inválido para busca.", e);
+        } catch (Exception e) {
+            throw new DatabaseException("Erro de conexão ao buscar pelo ID.", e);
         }
     }
 
@@ -118,7 +122,10 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
 
             return em.createQuery(jpql, classe).getResultList();
 
+        }catch (Exception e) {
+            throw new DatabaseException("Erro fatal ao listar registros de " + classe.getSimpleName(), e);
         }
+
     }
 
     @Override
@@ -126,8 +133,10 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
         try{
             return findById(id).isPresent();
 
-        }catch (Exception e){
-            throw new RuntimeException(e);
+        }catch (DatabaseException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new DatabaseException("Erro ao verificar existência do registro.", e);
         }
     }
     @Override
@@ -137,6 +146,8 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
             String jpql = "SELECT COUNT(t) FROM " + classe.getSimpleName() + " t";
             return em.createQuery(jpql, Long.class).getSingleResult();
 
+        }catch (Exception e) {
+            throw new DatabaseException("Erro ao contar total de registros.", e);
         }
     }
     private void rollback(EntityManager em) {
