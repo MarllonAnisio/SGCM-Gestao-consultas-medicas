@@ -73,13 +73,6 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
         }
     }
 
-    @Override
-    public Optional<T> findById(ID id) {
-
-        try(EntityManager em = getEntityManager()){
-            return Optional.ofNullable(em.find(classe, id));
-        }
-    }
 
     @Override
     public void deleteById(ID id) {
@@ -92,13 +85,27 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
             if(entity != null){
                 em.remove(entity);
             }
-
             em.getTransaction().commit();
-        }catch (Exception e){
-            em.getTransaction().rollback();
-            throw e;
-        }finally{
+
+        }catch (IllegalArgumentException e) {
+            rollback(em);
+            throw new DatabaseException("Erro: ID inválido para exclusão.", e);
+
+        }catch (Exception e) {
+            rollback(em);
+            throw new DatabaseException("Erro sistêmico inesperado ao excluir registro.", e);
+
+        }finally {
             em.close();
+        }
+    }
+
+
+    @Override
+    public Optional<T> findById(ID id) {
+
+        try(EntityManager em = getEntityManager()){
+            return Optional.ofNullable(em.find(classe, id));
         }
     }
 
