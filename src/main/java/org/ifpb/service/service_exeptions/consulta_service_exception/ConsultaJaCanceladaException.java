@@ -1,4 +1,4 @@
-package org.ifpb.service.service_exceptions.consulta_service_exception;
+package org.ifpb.service.service_exeptions.consulta_service_exception;
 
 public class ConsultaJaCanceladaException extends RuntimeException {
     public ConsultaJaCanceladaException(String message) {
