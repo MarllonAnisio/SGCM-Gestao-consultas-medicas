@@ -143,4 +143,14 @@ public abstract class GenericDAOImpl<T, ID> implements GerericDAO<T, ID> {
 
         }
     }
+    private void rollback(EntityManager em) {
+        if (em != null && em.getTransaction().isActive()) {
+            try {
+                em.getTransaction().rollback();
+            } catch (Exception e) {
+                
+                System.err.println("Erro crítico ao tentar fazer rollback: " + e.getMessage());
+            }
+        }
+    }
 }
