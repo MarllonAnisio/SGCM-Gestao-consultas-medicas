@@ -1,5 +1,6 @@
 package org.ifpb.dao;
 
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.OptimisticLockException;
 import org.ifpb.config.HibernateUtil;
@@ -55,10 +56,19 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
             em.persist(entity);
             em.getTransaction().commit();
 
-        }catch (Exception e){
-            em.getTransaction().rollback();
-            throw e;
-        }finally {
+        }catch (EntityExistsException e) {
+            rollback(em);
+            throw new DatabaseException("Erro: Já existe um registro com este ID no sistema.", e);
+
+        }catch (IllegalArgumentException e) {
+            rollback(em);
+            throw new DatabaseException("Erro de validação: Entidade inválida ou nula fornecida para salvar.", e);
+
+        } catch (Exception e) {
+            rollback(em);
+            throw new DatabaseException("Erro sistêmico inesperado ao salvar " + classe.getSimpleName(), e);
+
+        } finally {
             em.close();
         }
     }
