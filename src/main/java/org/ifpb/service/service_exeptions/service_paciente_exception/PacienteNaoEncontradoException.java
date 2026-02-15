@@ -1,4 +1,4 @@
-package org.ifpb.service.service_exeptions;
+package org.ifpb.service.service_exeptions.service_paciente_exception;
 
 public class PacienteNaoEncontradoException extends RuntimeException {
 
