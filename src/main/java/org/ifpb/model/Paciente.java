@@ -18,6 +18,7 @@ import lombok.Setter;
 import org.hibernate.annotations.SQLDelete;
 import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -48,7 +49,7 @@ public class Paciente implements IExclusaoLogica {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
-    private int datanascimento;
+    private LocalDate datanascimento;
 
     @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consulta> consultas;

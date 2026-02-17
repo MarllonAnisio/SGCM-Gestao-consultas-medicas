@@ -29,7 +29,7 @@ public class Medico implements IExclusaoLogica {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String CRM;
+    private String crm;
 
     @Column(nullable = false)
     private String nome;
@@ -48,7 +48,7 @@ public class Medico implements IExclusaoLogica {
     public String toString() {
         return "Medico{" +
                 "id=" + id +
-                ", CRM='" + CRM + '\'' +
+                ", CRM='" + crm + '\'' +
                 ", nome='" + nome + '\'' +
                 ", especialidade=" + especialidade +
                 '}';
@@ -58,12 +58,12 @@ public class Medico implements IExclusaoLogica {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Medico medico = (Medico) o;
-        return Objects.equals(id, medico.id) && Objects.equals(CRM, medico.CRM);
+        return Objects.equals(id, medico.id) && Objects.equals(crm, medico.crm);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, CRM);
+        return Objects.hash(id, crm);
     }
 
     @Override

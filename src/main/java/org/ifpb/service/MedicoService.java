@@ -1,15 +1,21 @@
 package org.ifpb.service;
 
 import org.ifpb.dao.MedicoDAO;
+import org.ifpb.dao.dao_exceptions.DatabaseException;
+import org.ifpb.dao.interfaces.IMedicoDAO;
+import org.ifpb.dto.medico.MedicoRequestDTO;
 import org.ifpb.model.Medico;
-import org.ifpb.service.service_exeptions.MedicoAtivoException;
-import org.ifpb.service.service_exeptions.MedicoJaAtivoException;
-import org.ifpb.service.service_exeptions.MedicoNaoEncontradoException;
+import org.ifpb.model.enums.Especialidade;
+import org.ifpb.service.service_exceptions.medico_service_exception.MedicoAtivoException;
+import org.ifpb.service.service_exceptions.medico_service_exception.MedicoExisteException;
+
+import org.ifpb.service.service_exceptions.medico_service_exception.MedicoNaoEncontradoException;
+import org.ifpb.service.service_exceptions.medico_service_exception.SaveInconsistencyException;
 import org.ifpb.service.service_interfaces.IAtivosService;
 
 public class MedicoService implements IAtivosService {
 
-    private MedicoDAO medicoDAO;
+    private final IMedicoDAO medicoDAO;
 
     public MedicoService(){
         medicoDAO = new MedicoDAO();
@@ -20,7 +26,7 @@ public class MedicoService implements IAtivosService {
                 .orElseThrow(() -> new MedicoNaoEncontradoException(" Este medico não existe no sistema"));
 
         if (medico.getAtivo()) {
-            throw new MedicoJaAtivoException("Este medico já está ativo");
+            throw new MedicoAtivoException("Este medico já está ativo");
         }
         medico.setAtivo(true);
 
@@ -36,5 +42,21 @@ public class MedicoService implements IAtivosService {
         medico.setAtivo(false);
 
         medicoDAO.update(medico);
+    }
+    public void save(MedicoRequestDTO medicoDTO){
+        Medico medico = Medico.builder()
+                .crm(medicoDTO.getCRM())
+                .nome(medicoDTO.getNome())
+                .especialidade(Especialidade.valueOf(medicoDTO.getEspecialidade()))
+                .build();
+        try {
+            if (medicoDAO.findByExistsCrm(medico.getCrm())) {
+                throw new MedicoExisteException();
+            }
+            medicoDAO.save(medico);
+
+        }catch (DatabaseException e){
+            throw new SaveInconsistencyException("Erro ao salvar medico: " + e.getMessage());
+        }
     }
 }

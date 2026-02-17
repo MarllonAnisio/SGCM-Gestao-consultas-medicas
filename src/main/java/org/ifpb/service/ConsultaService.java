@@ -8,11 +8,11 @@ import org.ifpb.model.Consulta;
 import org.ifpb.model.Medico;
 import org.ifpb.model.Paciente;
 import org.ifpb.model.enums.StatusConsulta;
-import org.ifpb.service.service_exeptions.consulta_service_exception.ConsultaJaCanceladaException;
-import org.ifpb.service.service_exeptions.consulta_service_exception.ConsultaJaRealizadaException;
-import org.ifpb.service.service_exeptions.consulta_service_exception.ConsultaNaoEncontradaException;
-import org.ifpb.service.service_exeptions.medico_service_exception.MedicoNaoEncontradoException;
-import org.ifpb.service.service_exeptions.service_paciente_exception.PacienteNaoEncontradoException;
+import org.ifpb.service.service_exceptions.consulta_service_exception.ConsultaJaCanceladaException;
+import org.ifpb.service.service_exceptions.consulta_service_exception.ConsultaJaRealizadaException;
+import org.ifpb.service.service_exceptions.consulta_service_exception.ConsultaNaoEncontradaException;
+import org.ifpb.service.service_exceptions.medico_service_exception.MedicoNaoEncontradoException;
+import org.ifpb.service.service_exceptions.service_paciente_exception.PacienteNaoEncontradoException;
 
 
 public class ConsultaService {

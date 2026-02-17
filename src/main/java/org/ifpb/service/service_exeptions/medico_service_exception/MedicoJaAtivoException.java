@@ -1,7 +1,0 @@
-package org.ifpb.service.service_exeptions.medico_service_exception;
-
-public class MedicoJaAtivoException extends RuntimeException {
-    public MedicoJaAtivoException(String message) {
-        super(message);
-    }
-}

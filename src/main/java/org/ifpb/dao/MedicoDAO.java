@@ -1,7 +1,6 @@
 package org.ifpb.dao;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery; // Importante para tipagem forte
 import org.ifpb.dao.dao_exceptions.DatabaseException;
 import org.ifpb.dao.interfaces.IMedicoDAO;
 import org.ifpb.model.Medico;
@@ -43,7 +42,7 @@ public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDA
             return count > 0;
 
         } catch (Exception e) {
-            throw new DatabaseException("Erro ao verificar existência do CRM.", e);
+            throw new DatabaseException("Erro ao verificar existência do CRM: " + crm, e);
         }
     }
 
