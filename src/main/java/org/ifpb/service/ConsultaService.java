@@ -26,23 +26,20 @@ public class ConsultaService {
         medicoDAO = new MedicoDAO();
         pacienteDAO = new PacienteDAO();
     }
-    public void agendarConsulta (ConsultaRequestDTO consultaDTO) throws MedicoNaoEncontradoException, PacienteNaoEncontradoException {
+    public void agendarConsulta (ConsultaRequestDTO dto) throws MedicoNaoEncontradoException, PacienteNaoEncontradoException {
 
-        Medico medico = medicoDAO.findById(consultaDTO.getIdMedico())
+        Medico medico = medicoDAO.findById(dto.getIdMedico())
                 .orElseThrow(() -> new MedicoNaoEncontradoException("Medico não encontrado"));
 
-        Paciente paciente = pacienteDAO.findById(consultaDTO.getIdPaciente())
+        Paciente paciente = pacienteDAO.findById(dto.getIdPaciente())
                 .orElseThrow(() -> new PacienteNaoEncontradoException("Paciente não encontrado"));
 
         Consulta consulta = Consulta.builder()
-                .data(consultaDTO.getData())
-                .observacao(consultaDTO.getObservacao())
+                .data(dto.getData())
+                .observacao(dto.getObservacao())
                 .medico(medico).
                 paciente(paciente).
                 build();
-
-        consulta.setMedico(medico);
-        consulta.setPaciente(paciente);
 
         consultaDAO.save(consulta);
     }
