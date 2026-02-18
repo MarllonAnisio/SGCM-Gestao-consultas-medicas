@@ -1,6 +1,10 @@
 package org.ifpb.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,20 +32,30 @@ public class Medico implements IExclusaoLogica {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
+    @NotBlank(message = "CRM é Obrigatório! ")
+    @Pattern(
+            regexp = "^\\d{6}-\\d{2}/[A-Z]{2}$",
+            message = "CRM deve ter 6 digitos"
+    )
+    @Column(nullable = false,name =" crm", unique = true, length = 6)
     private String crm;
 
-    @Column(nullable = false)
+    @NotBlank(message = "Nome é Obrigatorio")
+    @Size(message = "Nome deve ter entre  e 100 caracteres")
+    @Column(nullable = false, length = 100)
     private String nome;
 
     @Builder.Default
     @Column(nullable = false)
     private boolean ativo = true;
 
+    @NotNull(message = "Especialidade é obrigatória")
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
     private Especialidade especialidade;
 
-    @OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "medico", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Consulta> consultas;
 
     @Override
@@ -58,12 +72,12 @@ public class Medico implements IExclusaoLogica {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Medico medico = (Medico) o;
-        return Objects.equals(id, medico.id) && Objects.equals(crm, medico.crm);
+        return Objects.equals(crm, medico.crm);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, crm);
+        return Objects.hashCode(crm);
     }
 
     @Override
