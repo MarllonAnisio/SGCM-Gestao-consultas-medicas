@@ -8,8 +8,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,21 +35,30 @@ public class Consulta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Data da consulta é obrigatória")
+    @Future(message = "Data da consulta deve estar no futuro")
     @Column(nullable = false)
     private LocalDateTime data;
 
-    @Column(name = "observacoes")
+
+    @Size(max = 500, message = "Observação deve ter no máximo 500 caracteres")
+    @Column(name = "observacoes", length = 500)
     private String observacao;
 
     @Builder.Default
+    @NotNull(message = "Status é Obrigatório")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private StatusConsulta status = StatusConsulta.AGENDADA;
 
+    @NotNull(message = "O medico não pode ser nulo")
     @ManyToOne
+    @JoinColumn(name = "medico_id", nullable = false)
     private Medico medico;
 
+    @NotNull(message = "O Paciente não pode ser nulo")
     @ManyToOne
+    @JoinColumn(name = "paciente_id", nullable = false)
     private Paciente paciente;
 
     @Override
@@ -55,8 +68,8 @@ public class Consulta {
                 ", data=" + data +
                 ", observacao='" + observacao + '\'' +
                 ", status=" + status +
-                ", medico=" + medico.getNome() +
-                ", paciente=" + paciente.getNome() +
+                ", medico=" + (medico != null ? medico.getNome() : "N/A") +  // ✅ Safe!
+                ", paciente=" + (paciente != null ? paciente.getNome() : "N/A") +
                 '}';
     }
 
