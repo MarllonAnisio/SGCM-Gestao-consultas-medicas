@@ -5,11 +5,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.ForeignKey;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
@@ -28,7 +32,15 @@ import java.util.Objects;
 @Getter
 @Setter
 @Builder
-@Table(name = "tb_consultas")
+@Table(
+        name = "tb_consultas",
+        indexes = {
+                @Index(name = "idx_consulta_data", columnList = "data_consulta"),
+                @Index(name = "idx_consulta_status", columnList = "status"),
+                @Index(name = "idx_consulta_medico", columnList = "medico_id"),
+                @Index(name = "idx_consulta_paciente", columnList = "paciente_id")
+        }
+)
 @Entity
 public class Consulta {
     @Id
@@ -45,21 +57,28 @@ public class Consulta {
     @Column(name = "observacoes", length = 500)
     private String observacao;
 
-    @Builder.Default
+
     @NotNull(message = "Status é Obrigatório")
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 20)
+    @Column(name="status", nullable = false, length = 50)
     private StatusConsulta status = StatusConsulta.AGENDADA;
 
-    @NotNull(message = "O medico não pode ser nulo")
+    @NotNull(message = "Medico Obrigatorio")
     @ManyToOne
-    @JoinColumn(name = "medico_id", nullable = false)
+    @JoinColumn(name = "medico_id", nullable = false, foreignKey = @ForeignKey(name = "fk_consulta_medico"))
     private Medico medico;
 
-    @NotNull(message = "O Paciente não pode ser nulo")
-    @ManyToOne
-    @JoinColumn(name = "paciente_id", nullable = false)
+    @NotNull(message = "Paciente Obrigatório")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paciente_id", nullable = false, foreignKey = @ForeignKey(name = "fk_consulta_paciente"))
     private Paciente paciente;
+
+    @PrePersist
+    protected void onCreate() {
+        if (status == null) {
+            status = StatusConsulta.AGENDADA;
+        }
+    }
 
     @Override
     public String toString() {
