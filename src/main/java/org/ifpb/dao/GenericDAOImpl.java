@@ -24,29 +24,26 @@ public abstract class GenericDAOImpl<T, ID> implements GenericDAO<T, ID> {
     @Override
     public T update(T entity) {
         EntityManager em = getEntityManager();
-        try{
+        try {
             em.getTransaction().begin();
             T entityUpdated = em.merge(entity);
             em.getTransaction().commit();
             return entityUpdated;
 
-        }catch (OptimisticLockException e) {
+        } catch (OptimisticLockException e) {
             rollback(em);
             throw new DatabaseException("Conflito de versão: O registro foi alterado por outro usuário.", e);
-
-
-        }catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             rollback(em);
             throw new DatabaseException("Erro: Tentativa de atualizar um registro inválido ou removido.", e);
-
-
-        }catch (Exception e) {
+        } catch (Exception e) {
             rollback(em);
             throw new DatabaseException("Erro sistêmico inesperado ao atualizar " + classe.getSimpleName(), e);
-        }finally {
-            em.close();
+        } finally {
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
         }
-
     }
     @Override
     public void save(T entity) {
