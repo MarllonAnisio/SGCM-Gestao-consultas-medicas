@@ -21,7 +21,7 @@ services:
       - db
     environment:
       # url do db com o nome do banco e com a porta que ele recebe
-      DB_URL: jdbc:mysql://sgcm_db:3306/sgcm_db
+      DB_URL: jdbc:mysql://sgcm_db:3306/sgcm_db?createDatabaseIfNotExist=true
       DB_USER: #usuario
       DB_PASSWORD: #senha do banco
     expose:
