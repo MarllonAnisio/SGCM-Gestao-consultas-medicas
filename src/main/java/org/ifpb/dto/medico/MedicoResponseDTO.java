@@ -21,7 +21,8 @@ public class MedicoResponseDTO {
 
     private Long id;
     private String nome;
-    private String CRM;
+    private String crm;
     private String especialidade;
+    private boolean ativo;
 
 }
