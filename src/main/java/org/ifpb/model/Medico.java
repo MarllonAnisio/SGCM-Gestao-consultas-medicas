@@ -14,6 +14,7 @@ import org.hibernate.annotations.SQLDelete;
 import org.ifpb.model.enums.Especialidade;
 import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,7 +38,7 @@ public class Medico implements IExclusaoLogica {
             regexp = "^\\d{6}-\\d{2}/[A-Z]{2}$",
             message = "CRM deve ter 6 digitos"
     )
-    @Column(nullable = false,name =" crm", unique = true, length = 6)
+    @Column(name = "crm", nullable = false, unique = true, length = 12)
     private String crm;
 
     @NotBlank(message = "Nome é Obrigatorio")
@@ -56,7 +57,7 @@ public class Medico implements IExclusaoLogica {
 
     @OneToMany(mappedBy = "medico", fetch = FetchType.LAZY)
     @Builder.Default
-    private List<Consulta> consultas;
+    private List<Consulta> consultas = new ArrayList<>();
 
     @Override
     public String toString() {
