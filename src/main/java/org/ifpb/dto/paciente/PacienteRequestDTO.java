@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -24,5 +26,5 @@ public class PacienteRequestDTO {
     private String cpf;
     private String telefone;
     private String email;
-    private int datanascimento;
+    private LocalDate datanascimento;
 }
