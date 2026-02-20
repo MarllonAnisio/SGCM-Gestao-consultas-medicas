@@ -30,6 +30,7 @@ import org.ifpb.model.model_interfaces.IExclusaoLogica;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,7 +87,7 @@ public class Paciente implements IExclusaoLogica {
 
     @Builder.Default
     @OneToMany(mappedBy = "paciente", fetch = FetchType.LAZY)
-    private List<Consulta> consultas;
+    private List<Consulta> consultas = new ArrayList<>();
 
     @PrePersist
     protected void onCreate() {
