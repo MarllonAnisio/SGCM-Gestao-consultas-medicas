@@ -1,15 +1,48 @@
-services:
-  db:
+version: '3.8'
 
-    image: mysql:8 # ou o banco de dados de sua preferencia
-    container_name: SGCM-mysql-db # nome do container
+services:
+
+  db:
+    image: mysql:8  # ou o banco de dados de sua preferencia
+    container_name: sgcm_db # nome do container
     environment:
       MYSQL_ROOT_PASSWORD: #sua senha do banco de dados
-      MYSQL_DATABASE:  # nome do banco de dados
+      MYSQL_DATABASE: sgcm_db  # nome do banco de dados
     ports:
-      - 3306:3306 # a porta do seu banco o mais usado para o mysql é 3306 mas pode ser qualquer outra
-    volumes:
-      - mysql-data:/var/lib/mysql # o volume do banco de dados ex: /var/lib/mysql
+      - "3307:3306" # a porta do seu banco o mais usado para o mysql é 3306 mas pode ser qualquer outra
+    networks:
+      - sgcm-network
 
-volumes:
-  mysql-data:
+  # 2. O Java (A Cozinha - Ninguém entra direto)
+  app:
+    build: .
+    container_name: sgcm-app # O Nginx procura por esse nome
+    depends_on:
+      - db
+    environment:
+      # url do db com o nome do banco e com a porta que ele recebe
+      DB_URL: jdbc:mysql://sgcm_db:3306/sgcm_db
+      DB_USER: #usuario
+      DB_PASSWORD: #senha do banco
+    expose:
+      - "8080" # <--- aqui o caba avisa pro Docker que o Java usa a 8080 internamente
+    networks:
+      - sgcm-network
+
+  # 3. O Nginx recebe as chamadas
+  nginx:
+    image: nginx:latest
+    container_name: sgcm_nginx
+    ports:
+      - "80:80" # Nginx Expoe essa unica porta
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - sgcm-network
+
+# Criamos uma rede explícita
+networks:
+  sgcm-network:
+    driver: bridge
