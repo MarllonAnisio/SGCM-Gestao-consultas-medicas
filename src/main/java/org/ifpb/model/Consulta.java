@@ -49,7 +49,7 @@ public class Consulta {
 
     @NotNull(message = "Data da consulta é obrigatória")
     @Future(message = "Data da consulta deve estar no futuro")
-    @Column(nullable = false)
+    @Column(name = "data_consulta", nullable = false)
     private LocalDateTime data;
 
 
