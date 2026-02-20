@@ -17,7 +17,7 @@ public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDA
     @Override
     public Optional<Medico> findByCrm(String crm) {
         try (EntityManager em = getEntityManager()) {
-            String jpql = "SELECT m FROM Medico m WHERE m.CRM = :crm";
+            String jpql = "SELECT m FROM Medico m WHERE m.crm = :crm";
 
             return em.createQuery(jpql, Medico.class)
                     .setParameter("crm", crm)
@@ -33,7 +33,7 @@ public class MedicoDAO extends GenericDAOImpl<Medico, Long> implements IMedicoDA
     @Override
     public boolean findByExistsCrm(String crm) {
         try (EntityManager em = getEntityManager()) {
-            String jpql = "SELECT COUNT(m) FROM Medico m WHERE m.CRM = :crm";
+            String jpql = "SELECT COUNT(m) FROM Medico m WHERE m.crm = :crm";
 
             Long count = em.createQuery(jpql, Long.class)
                     .setParameter("crm", crm)
